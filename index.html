@@ -1,312 +1,57 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!doctype html><html lang="id"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Digital Book Studio</title>
 <style>
-:root{
-  --accent:#8b5e68;
-  --bg:#eee8dd;
-  --panel:#ffffff;
-  --text:#2d2725;
-  --paper:#f8f1df;
-}
-*{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text)}
-header{padding:14px 18px;background:#211e1d;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:20}
-header h1{font-size:19px;margin:0}
-header small{opacity:.7}
-button,.select,input,textarea{font:inherit}
-button{border:0;border-radius:10px;padding:10px 14px;cursor:pointer}
-.primary{background:var(--accent);color:white}
-.secondary{background:#e8e2d9;color:#302b28}
-.danger{background:#ead0d0;color:#742e2e}
-.app{display:grid;grid-template-columns:300px 1fr;min-height:calc(100vh - 64px)}
-.sidebar{background:#fff;border-right:1px solid #ddd;padding:16px;overflow:auto}
-.section{border-bottom:1px solid #eee;padding:0 0 16px;margin-bottom:16px}
-.section h3{font-size:14px;margin:0 0 10px}
-.row{display:flex;gap:8px;flex-wrap:wrap}
-.row>*{flex:1}
-input[type=text],input[type=number],textarea,select{width:100%;border:1px solid #d8d2ca;border-radius:8px;padding:9px;background:white}
-textarea{min-height:70px;resize:vertical}
-input[type=color]{width:100%;height:40px;border:0;background:none;padding:0}
-.file{display:none}
-label.upload{display:block;text-align:center;background:#2c2928;color:white;padding:11px;border-radius:9px;cursor:pointer}
-.small{font-size:12px;color:#777}
-.workspace{padding:18px;display:flex;flex-direction:column;gap:14px;min-width:0}
-.toolbar{background:#fff;border-radius:14px;padding:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;box-shadow:0 3px 15px #0000000d}
-.toolbar .spacer{flex:1}
-.book-wrap{display:flex;justify-content:center;align-items:center;min-height:520px;background:#d8cfbf;border-radius:18px;padding:22px;overflow:auto}
-.book{position:relative;display:flex;max-width:960px;width:min(96vw,960px);min-height:520px;perspective:1800px}
-.sheet{width:50%;background:var(--paper);position:relative;overflow:hidden;box-shadow:0 15px 35px #0003;min-height:520px}
-.sheet.left{border-radius:8px 0 0 8px;border-right:1px solid #cfc5b5}
-.sheet.right{border-radius:0 8px 8px 0}
-.single .sheet{width:100%;border-radius:8px}
-.paper{position:absolute;inset:0;padding:24px;overflow:hidden}
-.cover{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
-.cover h2{font-family:Georgia,serif;font-size:38px;margin:12px 0}
-.cover p{max-width:80%;line-height:1.6}
-.photo{width:100%;height:300px;object-fit:cover;border-radius:5px;box-shadow:0 8px 18px #0002}
-.photo.contain{object-fit:contain;background:#eee}
-.tape{position:absolute;width:80px;height:22px;background:#e8d36b;opacity:.8;z-index:3}
-.tape.t1{top:18px;left:25px;transform:rotate(-5deg)}
-.tape.t2{top:18px;right:25px;transform:rotate(5deg)}
-.page-title{font-family:Georgia,serif;text-align:center;font-size:25px;margin:14px 0 8px}
-.page-text{text-align:center;white-space:pre-wrap;line-height:1.55}
-.sticker{position:absolute;font-size:35px}
-.s1{left:18px;bottom:18px}.s2{right:18px;bottom:18px}
-.hint{text-align:center;color:#777;font-size:13px}
-.thumbs{display:flex;gap:8px;overflow:auto;padding-bottom:4px}
-.thumb{min-width:74px;border:2px solid transparent;border-radius:8px;overflow:hidden;cursor:pointer;background:#f2eee8}
-.thumb.active{border-color:var(--accent)}
-.thumb img{width:72px;height:88px;object-fit:cover;display:block}
-.thumb span{display:block;text-align:center;font-size:11px;padding:3px}
-.preview-overlay{position:fixed;inset:0;background:#111d;z-index:50;display:none;align-items:center;justify-content:center;padding:15px}
-.preview-overlay.open{display:flex}
-.preview-box{background:#fff;border-radius:15px;width:min(1000px,96vw);height:min(92vh,760px);padding:12px;display:flex;flex-direction:column;gap:10px}
-.preview-stage{flex:1;background:#d8cfbf;border-radius:10px;display:flex;align-items:center;justify-content:center;overflow:auto;padding:15px}
-.preview-stage .book{transform:scale(.9);transform-origin:center}
-@media(max-width:800px){
- .app{grid-template-columns:1fr}
- .sidebar{border-right:0;border-bottom:1px solid #ddd}
- .book{min-height:430px}
- .sheet{min-height:430px}
- .photo{height:230px}
- .cover h2{font-size:28px}
-}
-</style>
-</head>
-<body>
-<header>
-  <div><h1>📖 Digital Book Studio</h1><small>Editor buku digital serbaguna</small></div>
-  <div class="row">
-    <button class="secondary" onclick="previewBook()">👀 Preview</button>
-    <button class="primary" onclick="window.print()">🖨️ Cetak / PDF</button>
-  </div>
-</header>
+:root{--bg:#f6f2ea;--card:#fffdf8;--ink:#28251f;--muted:#817a70;--accent:#8b6f47;--line:#e7dfd2}
+*{box-sizing:border-box}body{margin:0;background:#ddd;color:var(--ink);font-family:system-ui,-apple-system,sans-serif}.app{max-width:520px;margin:auto;min-height:100vh;background:var(--bg);padding-bottom:80px}
+header{padding:18px;display:flex;justify-content:space-between;position:sticky;top:0;background:#f6f2eaf0;backdrop-filter:blur(10px);z-index:5}.logo{font-weight:800}.logo small{display:block;font-size:9px;letter-spacing:2px;color:var(--muted)}main{padding:8px 16px}.view{display:none}.view.active{display:block}
+.hero{border-radius:25px;padding:24px;background:linear-gradient(135deg,#eadcc8,#fffaf1);box-shadow:0 10px 30px #0001}.hero h1{font:30px Georgia;margin:0 0 10px}.hero p{font-size:13px;color:#6d6458}.primary{background:var(--ink);color:#fff;border:0;border-radius:13px;padding:13px 17px;font-weight:700}
+.section{margin-top:24px}.sectionhead{display:flex;justify-content:space-between;align-items:center}.section h2{font-size:16px}.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.quick button,.bookcard,.form,.tools{background:var(--card);border:1px solid var(--line);border-radius:18px}.quick button{padding:14px 5px}.quick span{font-size:22px}.quick b{display:block;font-size:11px;margin-top:6px}
+.books{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.bookcard{padding:8px}.cover{aspect-ratio:3/4;border-radius:12px;overflow:hidden;background:#e5dfd5}.cover img{width:100%;height:100%;object-fit:cover}.bookinfo{padding:7px 2px}.bookinfo b{font-size:13px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.bookinfo small{font-size:10px;color:var(--muted)}.bookactions{display:flex;gap:5px;margin-top:6px}.mini{flex:1;padding:8px 3px;border:1px solid var(--line);background:var(--card);border-radius:9px;font-size:10px;font-weight:700}.dark{background:var(--ink);color:white}.empty{grid-column:1/-1;text-align:center;padding:30px;color:var(--muted);background:var(--card);border-radius:18px}
+.form{padding:16px}label{display:block;font-size:12px;font-weight:700;margin:12px 0 6px}input,select,textarea{width:100%;padding:12px;border:1px solid var(--line);border-radius:11px;background:#fff}.drop{border:2px dashed #cdbd9e;border-radius:16px;padding:25px;text-align:center;margin-top:12px}.drop input{display:none}.actions{display:flex;gap:8px;margin-top:12px}.actions>*{flex:1}
+.editorbar{display:flex;gap:8px;align-items:center;margin-bottom:10px}.editorbar strong{flex:1}.back,.save{padding:10px 12px;border-radius:11px;border:0}.back{background:var(--card)}.save{background:var(--ink);color:white}.tabs{display:flex;gap:6px;overflow:auto;margin-bottom:12px}.tabs button{white-space:nowrap;padding:9px 11px;border:1px solid var(--line);border-radius:11px;background:var(--card);font-size:11px}.tabs .on{background:var(--ink);color:#fff}
+.stage{background:#e5ded2;border-radius:20px;padding:18px;display:flex;justify-content:center;min-height:420px;align-items:center}.page{width:78%;aspect-ratio:3/4;background:#fffdf8;box-shadow:0 18px 35px #0002;position:relative;overflow:hidden;padding:14px}.page img{width:100%;height:58%;object-fit:cover}.page h2{font:22px Georgia;margin:12px 4px 5px}.page p{font:11px Georgia;line-height:1.5;margin:4px}.coverpage{display:flex;flex-direction:column;justify-content:flex-end;color:white;padding:20px}.coverpage img{position:absolute;inset:0;width:100%;height:100%;z-index:0;filter:brightness(.7)}.overlay{position:relative;z-index:1}.thumbs{display:flex;gap:7px;overflow:auto;padding:10px 0}.thumb{min-width:55px;height:70px;border:2px solid transparent;border-radius:8px;overflow:hidden;background:var(--card);font-size:9px}.thumb.on{border-color:var(--accent)}.thumb img{width:100%;height:100%;object-fit:cover}.tools{padding:10px}.toolgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.tool{background:var(--bg);border:0;border-radius:10px;padding:9px 2px;font-size:9px}.tool span{display:block;font-size:18px}.reader{background:#211d18;border-radius:20px;padding:18px;min-height:70vh}.readpage{background:#fffdf8;min-height:65vh;padding:18px}.readpage img{width:100%;max-height:50vh;object-fit:cover}.readnav{display:flex;justify-content:space-between;margin-top:12px}.readnav button{padding:10px;border:0;border-radius:10px}.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,100%);height:70px;background:#fffdf8ee;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);z-index:10}.bottom button{border:0;background:none;color:var(--muted);font-size:10px}.bottom b{display:block;font-size:18px}.toast{position:fixed;bottom:85px;left:50%;transform:translateX(-50%);background:#28251f;color:#fff;padding:10px 15px;border-radius:11px;font-size:11px;display:none}
+</style></head><body><div class="app">
+<header><div class="logo">DIGITAL BOOK STUDIO<small>CREATE • DESIGN • REMEMBER</small></div><button onclick="show('library')">📚</button></header>
+<main>
+<section id="home" class="view active"><div class="hero"><h1>Ubah cerita menjadi buku.</h1><p>Upload foto, pilih gaya, dan biarkan Auto Theme menyesuaikan tampilan bukumu.</p><button class="primary" onclick="show('create')">＋ Buat Buku Baru</button></div>
+<div class="section"><div class="sectionhead"><h2>Mulai cepat</h2></div><div class="quick"><button onclick="show('create')"><span>📷</span><b>Upload Foto</b></button><button onclick="show('create')"><span>✨</span><b>Auto Theme</b></button><button onclick="show('library')"><span>📚</span><b>Perpustakaan</b></button></div></div>
+<div class="section"><div class="sectionhead"><h2>Buku terakhir</h2></div><div id="homeBooks" class="books"></div></div></section>
 
-<div class="app">
-<aside class="sidebar">
-  <div class="section">
-    <h3>1. Foto & halaman</h3>
-    <label class="upload">📷 Upload banyak foto
-      <input class="file" id="files" type="file" accept="image/*" multiple>
-    </label>
-    <p class="small" id="count">0 foto</p>
-    <div class="row">
-      <button class="secondary" onclick="addPage()">＋ Halaman</button>
-      <button class="danger" onclick="deletePage()">Hapus halaman</button>
-    </div>
-    <div class="thumbs" id="thumbs"></div>
-  </div>
+<section id="library" class="view"><div class="sectionhead"><h2>📚 Perpustakaan Saya</h2><button class="primary" style="padding:9px" onclick="show('create')">＋ Buku</button></div><p style="font-size:12px;color:var(--muted)">Simpan, lanjutkan, atau baca kembali buku yang dibuat.</p><div id="libraryBooks" class="books"></div></section>
 
-  <div class="section">
-    <h3>2. Ukuran buku</h3>
-    <select id="size" onchange="applySettings()">
-      <option value="a5">A5 Portrait</option>
-      <option value="a4">A4 Portrait</option>
-      <option value="square">1:1 Square</option>
-      <option value="story">9:16 Story</option>
-      <option value="landscape">Landscape</option>
-    </select>
-    <select id="layout" onchange="applySettings()" style="margin-top:8px">
-      <option value="spread">Buku terbuka 2 halaman</option>
-      <option value="single">Satu halaman</option>
-    </select>
-  </div>
+<section id="create" class="view"><div class="editorbar"><button class="back" onclick="show('home')">←</button><strong>Buat Buku Baru</strong></div><div class="form">
+<label>Judul buku</label><input id="title" placeholder="Contoh: My Special Day"><label>Nama penulis</label><input id="author" placeholder="Nama kamu">
+<label>Ukuran buku</label><select id="size"><option>A5 Portrait</option><option>A4 Portrait</option><option>Square 1:1</option><option>9:16</option></select>
+<label>Tema</label><select id="theme"><option value="auto">✨ Auto Theme</option><option>vintage</option><option>romantic</option><option>nature</option><option>dark</option><option>cute</option><option>elegant</option><option>modern</option></select>
+<div class="drop" onclick="photos.click()"><b>📷 Upload gambar</b><br><small>Setiap foto otomatis menjadi satu halaman buku</small><input id="photos" type="file" accept="image/*" multiple onchange="countPhotos()"></div><div id="count" style="font-size:11px;color:var(--muted);margin-top:8px">Belum ada foto</div>
+<div class="actions"><button class="primary" onclick="createBook()">Buat Buku & Edit →</button></div></div></section>
 
-  <div class="section">
-    <h3>3. Tema</h3>
-    <select id="theme" onchange="applyTheme()">
-      <option value="vintage">Vintage Scrapbook</option>
-      <option value="romantic">Romantic</option>
-      <option value="minimal">Minimal</option>
-      <option value="dark">Dark</option>
-      <option value="pastel">Pastel</option>
-    </select>
-  </div>
+<section id="editor" class="view"><div class="editorbar"><button class="back" onclick="show('library')">←</button><strong id="edtitle">Editor</strong><button class="save" onclick="save()">Simpan</button></div>
+<div class="tabs"><button class="on" onclick="mode='front';render()">📕 Cover Depan</button><button onclick="mode='body';render()">📖 Isi Buku</button><button onclick="mode='back';render()">📗 Cover Belakang</button></div>
+<div class="stage"><div id="page" class="page"></div></div><div id="thumbs" class="thumbs"></div><div class="tools"><div class="toolgrid"><button class="tool" onclick="editText()">✍️<span>Teks</span></button><button class="tool" onclick="nextPage()">🖼️<span>Foto</span></button><button class="tool" onclick="autoTheme()">✨<span>Auto Theme</span></button><button class="tool" onclick="autoCover()">🎨<span>Auto Cover</span></button></div><div class="actions"><button class="mini" onclick="show('reader')">📖 Baca Buku</button><button class="mini dark" onclick="printBook()">⬇️ Export / PDF</button></div></div></section>
 
-  <div class="section">
-    <h3>4. Edit halaman terpilih</h3>
-    <input id="title" type="text" placeholder="Judul halaman" oninput="updateCurrent()">
-    <textarea id="text" placeholder="Teks / cerita halaman" oninput="updateCurrent()"></textarea>
-    <label class="small">Warna kertas</label>
-    <input id="paper" type="color" value="#f8f1df" onchange="applySettings()">
-    <label class="small">Warna aksen</label>
-    <input id="accent" type="color" value="#8b5e68" onchange="applySettings()">
-    <div class="row" style="margin-top:8px">
-      <button class="secondary" onclick="toggleFit()">🖼️ Fit foto</button>
-      <button class="secondary" onclick="rotatePhoto()">↻ Putar</button>
-    </div>
-  </div>
-
-  <div class="section">
-    <h3>5. Sampul</h3>
-    <input id="bookTitle" type="text" value="Our Little Story" placeholder="Judul buku" oninput="render()">
-    <textarea id="bookSubtitle" placeholder="Subjudul sampul" oninput="render()">Sebuah kumpulan kenangan yang tidak ingin dilupakan.</textarea>
-  </div>
-
-  <p class="hint">Semua data bekerja di browser ini. Upload foto tidak dikirim ke server.</p>
-</aside>
-
-<main class="workspace">
-  <div class="toolbar">
-    <button class="secondary" onclick="firstPage()">⏮</button>
-    <button class="secondary" onclick="prevPage()">←</button>
-    <strong id="pageInfo">Cover</strong>
-    <button class="secondary" onclick="nextPage()">→</button>
-    <button class="secondary" onclick="lastPage()">⏭</button>
-    <span class="spacer"></span>
-    <button class="secondary" onclick="resetBook()">↺ Reset</button>
-  </div>
-
-  <div class="book-wrap">
-    <div id="book" class="book">
-      <div class="sheet left"><div class="paper"></div></div>
-      <div class="sheet right"><div class="paper"></div></div>
-    </div>
-  </div>
-  <div class="hint">Gunakan panel kiri untuk mengubah ukuran, model, tema, teks, warna, dan isi halaman.</div>
+<section id="reader" class="view"><div class="editorbar"><button class="back" onclick="show('editor')">←</button><strong id="rtitle">Baca Buku</strong></div><div class="reader"><div id="readpage" class="readpage"></div><div class="readnav"><button onclick="rprev()">←</button><button onclick="rnext()">→</button></div></div></section>
 </main>
+<nav class="bottom"><button onclick="show('home')"><b>⌂</b>Beranda</button><button onclick="show('library')"><b>▤</b>Perpustakaan</button><button onclick="show('create')"><b>＋</b>Buat</button><button onclick="toast('Template akan ditambahkan')"><b>✦</b>Eksplor</button><button onclick="toast('Profil akan ditambahkan')"><b>◯</b>Profil</button></nav><div id="toast" class="toast"></div>
 </div>
-
-<div class="preview-overlay" id="overlay">
-  <div class="preview-box">
-    <div class="toolbar"><strong>Preview Buku</strong><span class="spacer"></span><button class="secondary" onclick="closePreview()">Tutup</button></div>
-    <div class="preview-stage"><div id="previewBook" class="book"></div></div>
-  </div>
-</div>
-
 <script>
-const state={
-  pages:[],
-  current:0,
-  layout:'spread',
-  size:'a5',
-  theme:'vintage',
-  paper:'#f8f1df',
-  accent:'#8b5e68'
-};
-
-const themes={
- vintage:{bg:'#eee8dd',paper:'#f8f1df',accent:'#8b5e68'},
- romantic:{bg:'#f4dfe5',paper:'#fff5f7',accent:'#b45d76'},
- minimal:{bg:'#e9e9e9',paper:'#ffffff',accent:'#333333'},
- dark:{bg:'#262323',paper:'#302d2d',accent:'#c99a9a'},
- pastel:{bg:'#dfe9e3',paper:'#fff9e9',accent:'#78958a'}
-};
-
-function blankPage(){return {img:null,title:'',text:'',fit:false,rotation:0}}
-function addPage(){state.pages.push(blankPage());state.current=state.pages.length-1;syncEditor();render()}
-function deletePage(){if(!state.pages.length)return;state.pages.splice(state.current,1);state.current=Math.max(0,state.current-1);syncEditor();render()}
-function resetBook(){if(!confirm('Reset semua halaman dan foto?'))return;state.pages=[];state.current=0;document.getElementById('files').value='';syncEditor();render()}
-document.getElementById('files').addEventListener('change',e=>{
-  const files=[...e.target.files];
-  state.pages=[];
-  files.forEach((file,i)=>{
-    const r=new FileReader();
-    r.onload=ev=>{
-      state.pages[i]={...blankPage(),img:ev.target.result,title:'Kenangan '+(i+1)};
-      if(state.pages.filter(Boolean).length===files.length){state.current=0;syncEditor();render()}
-    };
-    r.readAsDataURL(file);
-  });
-});
-
-function syncEditor(){
- const p=state.pages[state.current];
- document.getElementById('title').value=p?.title||'';
- document.getElementById('text').value=p?.text||'';
- document.getElementById('count').textContent=state.pages.length+' halaman';
- renderThumbs();
-}
-function updateCurrent(){
- const p=state.pages[state.current]; if(!p)return;
- p.title=document.getElementById('title').value;
- p.text=document.getElementById('text').value;
- render();
-}
-function renderThumbs(){
- const box=document.getElementById('thumbs');box.innerHTML='';
- state.pages.forEach((p,i)=>{
-  const d=document.createElement('div');d.className='thumb'+(i===state.current?' active':'');
-  d.innerHTML=p.img?`<img src="${p.img}"><span>${i+1}</span>`:`<span style="height:88px;display:grid;place-items:center">＋</span><span>${i+1}</span>`;
-  d.onclick=()=>{state.current=i;syncEditor();render()};
-  box.appendChild(d);
- });
-}
-function pageHTML(p,i){
- if(!p)return '';
- const rot=p.rotation||0;
- return `<div class="paper">
-   <div class="tape t1"></div>
-   ${p.img?`<img class="photo ${p.fit?'contain':''}" style="transform:rotate(${rot}deg)" src="${p.img}">`:''}
-   <div class="page-title">${escapeHtml(p.title||('Halaman '+(i+1)))}</div>
-   <div class="page-text">${escapeHtml(p.text||'')}</div>
-   <div class="sticker s1">✦</div><div class="sticker s2">♥</div>
-   <div class="page-number">${i+1} / ${state.pages.length}</div>
- </div>`;
-}
-function coverHTML(){
- return `<div class="paper cover"><div class="tape t1"></div><div style="font-size:58px">💗</div><h2>${escapeHtml(document.getElementById('bookTitle').value||'Our Little Story')}</h2><p>${escapeHtml(document.getElementById('bookSubtitle').value||'')}</p><div class="sticker s1">✦</div><div class="sticker s2">✦</div></div>`;
-}
-function render(target=document.getElementById('book')){
- const layout=state.layout;
- target.className='book'+(layout==='single'?' single':'');
- const left=target.querySelector('.left'),right=target.querySelector('.right');
- if(!left||!right){target.innerHTML=`<div class="sheet left"><div class="paper"></div></div><div class="sheet right"><div class="paper"></div></div>`}
- const sheets=target.querySelectorAll('.sheet');
- const papers=target.querySelectorAll('.paper');
- target.style.aspectRatio=sizeRatio();
- target.style.maxWidth=layout==='single'?'560px':'960px';
- target.style.minHeight=layout==='single'?'520px':'520px';
- sheets.forEach(s=>s.style.background=state.paper);
- if(layout==='single'){
-   sheets[1].style.display='none';
-   papers[0].innerHTML=state.current===0?coverHTML():pageHTML(state.pages[state.current],state.current);
- }else{
-   sheets[1].style.display='block';
-   papers[0].innerHTML=state.current===0?coverHTML():pageHTML(state.pages[state.current],state.current);
-   papers[1].innerHTML=state.current===0?'':pageHTML(state.pages[state.current+1],state.current+1);
- }
- document.documentElement.style.setProperty('--accent',state.accent);
- document.documentElement.style.setProperty('--bg',themes[state.theme].bg);
- document.documentElement.style.setProperty('--paper',state.paper);
- document.getElementById('pageInfo').textContent=state.current===0?'Cover':`Halaman ${state.current+1}${layout==='spread'&&state.current+1<state.pages.length?'–'+(state.current+2):''}`;
- renderThumbs();
-}
-function sizeRatio(){
- return ({a5:'0.707',a4:'0.707',square:'1',story:'0.5625',landscape:'1.414'})[state.size];
-}
-function applySettings(){
- state.size=document.getElementById('size').value;
- state.layout=document.getElementById('layout').value;
- state.paper=document.getElementById('paper').value;
- state.accent=document.getElementById('accent').value;
- render();
-}
-function applyTheme(){
- state.theme=document.getElementById('theme').value;
- const t=themes[state.theme];
- state.paper=t.paper;state.accent=t.accent;
- document.getElementById('paper').value=t.paper;
- document.getElementById('accent').value=t.accent;
- render();
-}
-function toggleFit(){const p=state.pages[state.current];if(!p)return;p.fit=!p.fit;render()}
-function rotatePhoto(){const p=state.pages[state.current];if(!p)return;p.rotation=(p.rotation+90)%360;render()}
-function nextPage(){const max=state.pages.length; if(state.current<max-1){state.current++;syncEditor();render()}}
-function prevPage(){if(state.current>0){state.current--;syncEditor();render()}}
-function firstPage(){state.current=0;syncEditor();render()}
-function lastPage(){state.current=Math.max(0,state.pages.length-1);syncEditor();render()}
-function previewBook(){const pb=document.getElementById('previewBook');pb.innerHTML='';pb.className='book'+(state.layout==='single'?' single':'');pb.innerHTML=`<div class="sheet left"><div class="paper"></div></div><div class="sheet right"><div class="paper"></div></div>`;render(pb);document.getElementById('overlay').classList.add('open')}
-function closePreview(){document.getElementById('overlay').classList.remove('open')}
-function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
-document.getElementById('layout').value=state.layout;
-document.getElementById('size').value=state.size;
-document.getElementById('theme').value=state.theme;
-render();
-</script>
-</body>
-</html>
+let books=JSON.parse(localStorage.getItem('dbs_books')||'[]'),current=null,mode='front',idx=0,reader=0;
+const $=x=>document.getElementById(x);
+function show(id){document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));$(id).classList.add('active');if(id==='home')list('homeBooks');if(id==='library')list('libraryBooks');if(id==='editor')render();if(id==='reader')renderReader();scrollTo(0,0)}
+function toast(x){let t=$('toast');t.textContent=x;t.style.display='block';clearTimeout(window.tt);window.tt=setTimeout(()=>t.style.display='none',1600)}
+function countPhotos(){$('count').textContent=photos.files.length?photos.files.length+' foto dipilih — otomatis menjadi halaman.':'Belum ada foto'}
+function filesToData(files){return Promise.all([...files].map(f=>new Promise(r=>{let a=new FileReader();a.onload=()=>r(a.result);a.readAsDataURL(f)})))}
+async function createBook(){if(!photos.files.length)return toast('Pilih foto terlebih dahulu');let imgs=await filesToData(photos.files),t=$('title').value||'Buku Tanpa Judul';current={id:Date.now(),title:t,author:$('author').value,theme:$('theme').value,size:$('size').value,front:{image:imgs[0],title:t,subtitle:$('author').value||'A story to remember'},pages:imgs.map((x,i)=>({image:x,title:'Page '+(i+1),text:'Tambahkan cerita di halaman ini.'})),back:{image:imgs.at(-1),title:'Terima kasih',text:'Sebuah cerita yang layak dikenang.'},updated:Date.now()};books.unshift(current);save();show('editor')}
+function save(){if(!current)return;current.updated=Date.now();let i=books.findIndex(x=>x.id===current.id);if(i<0)books.unshift(current);else books[i]=current;localStorage.setItem('dbs_books',JSON.stringify(books));toast('Buku tersimpan')}
+function list(id){let e=$(id);if(!books.length){e.innerHTML='<div class="empty">📚<br><br>Belum ada buku.<br>Buat buku pertamamu!</div>';return}e.innerHTML=books.map(b=>`<article class="bookcard"><div class="cover"><img src="${b.front.image}"></div><div class="bookinfo"><b>${esc(b.title)}</b><small>${b.pages.length} halaman · ${b.theme}</small><div class="bookactions"><button class="mini" onclick="openBook(${b.id})">Edit</button><button class="mini dark" onclick="readBook(${b.id})">Baca</button></div></div></article>`).join('')}
+function openBook(id){current=books.find(x=>x.id===id);show('editor')}function readBook(id){current=books.find(x=>x.id===id);reader=0;show('reader')}
+function esc(s){return String(s||'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))}
+function render(){if(!current)return;$('edtitle').textContent=current.title;let p=$('page');if(mode==='front'){p.className='page coverpage';p.innerHTML=`<img src="${current.front.image}"><div class="overlay"><h2>${esc(current.front.title)}</h2><p>${esc(current.front.subtitle)}</p></div>`}else if(mode==='back'){p.className='page coverpage';p.innerHTML=`<img src="${current.back.image}"><div class="overlay"><h2>${esc(current.back.title)}</h2><p>${esc(current.back.text)}</p></div>`}else{let x=current.pages[idx];p.className='page';p.innerHTML=`<img src="${x.image}"><h2>${esc(x.title)}</h2><p>${esc(x.text)}</p>`}renderThumbs()}
+function renderThumbs(){$('thumbs').innerHTML=current.pages.map((x,i)=>`<button class="thumb ${mode==='body'&&idx===i?'on':''}" onclick="mode='body';idx=${i};render()"><img src="${x.image}"></button>`).join('')}
+function nextPage(){if(mode!=='body')return toast('Pilih Isi Buku dahulu');idx=(idx+1)%current.pages.length;render()}function editText(){let s=prompt('Tulis teks:',mode==='body'?current.pages[idx].text:mode==='front'?current.front.subtitle:current.back.text);if(s===null)return;if(mode==='body')current.pages[idx].text=s;else if(mode==='front')current.front.subtitle=s;else current.back.text=s;save();render()}
+function autoTheme(){toast('Auto Theme diterapkan');save()}function autoCover(){current.front.image=current.pages[0].image;current.back.image=current.pages.at(-1).image;save();render();toast('Cover otomatis dibuat')}
+function renderReader(){if(!current)return;$('rtitle').textContent=current.title;let all=[current.front,...current.pages,current.back],x=all[reader];$('readpage').innerHTML=`<img src="${x.image}"><h1>${esc(x.title)}</h1><p>${esc(x.text||x.subtitle)}</p>`}function rprev(){reader=Math.max(0,reader-1);renderReader()}function rnext(){reader=Math.min(current.pages.length+1,reader+1);renderReader()}
+function printBook(){save();let w=open('','_blank');w.document.write('<html><body>'+[current.front,...current.pages,current.back].map(x=>`<div style="page-break-after:always"><img style="max-width:100%" src="${x.image}"><h1>${esc(x.title)}</h1><p>${esc(x.text||x.subtitle)}</p></div>`).join('')+'</body></html>');w.document.close();setTimeout(()=>w.print(),300)}
+list('homeBooks');
+</script></body></html>
