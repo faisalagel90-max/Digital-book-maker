@@ -1,1 +1,364 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Book Maker</title>
 
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f1ec;
+    color: #333;
+}
+
+header {
+    background: #222;
+    color: white;
+    padding: 22px 16px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 26px;
+}
+
+header p {
+    margin: 8px 0 0;
+    opacity: 0.8;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+}
+
+.upload-box {
+    background: white;
+    border-radius: 18px;
+    padding: 30px 20px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+.upload-box h2 {
+    margin-top: 0;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.upload-button {
+    display: inline-block;
+    background: #222;
+    color: white;
+    padding: 14px 25px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.settings {
+    background: white;
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 18px;
+}
+
+.settings label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.settings input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.pages {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.page {
+    background: white;
+    padding: 8px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+}
+
+.page img {
+    width: 100%;
+    aspect-ratio: 1 / 1.414;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.page-number {
+    text-align: center;
+    padding: 7px 0 3px;
+    font-weight: bold;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 25px;
+    flex-wrap: wrap;
+}
+
+button {
+    flex: 1;
+    min-width: 150px;
+    border: none;
+    padding: 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.preview {
+    background: #222;
+    color: white;
+}
+
+.clear {
+    background: #ddd;
+    color: #222;
+}
+
+.empty {
+    text-align: center;
+    color: #888;
+    padding: 30px;
+}
+
+footer {
+    text-align: center;
+    padding: 30px;
+    color: #888;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>📖 Digital Book Maker</h1>
+    <p>Buat buku digital dari kumpulan gambar</p>
+</header>
+
+<div class="container">
+
+    <div class="upload-box">
+        <h2>Upload Gambar</h2>
+        <p>Pilih beberapa gambar untuk dijadikan halaman buku.</p>
+
+        <label class="upload-button" for="imageInput">
+            + Pilih Gambar
+        </label>
+
+        <input
+            type="file"
+            id="imageInput"
+            accept="image/*"
+            multiple
+        >
+    </div>
+
+    <div class="settings">
+
+        <label>Judul Buku</label>
+
+        <input
+            type="text"
+            id="bookTitle"
+            placeholder="Contoh: Kisah Kita"
+        >
+
+        <label>Ukuran Buku</label>
+
+        <input
+            type="text"
+            value="A5"
+            disabled
+        >
+
+    </div>
+
+    <div id="pages" class="pages">
+        <div class="empty">
+            Belum ada gambar yang dipilih.
+        </div>
+    </div>
+
+    <div class="buttons">
+
+        <button class="preview" onclick="previewBook()">
+            📖 Preview Buku
+        </button>
+
+        <button class="clear" onclick="clearImages()">
+            🗑️ Hapus Semua
+        </button>
+
+    </div>
+
+</div>
+
+<footer>
+    Digital Book Maker
+</footer>
+
+<script>
+
+let images = [];
+
+const imageInput = document.getElementById("imageInput");
+const pages = document.getElementById("pages");
+
+imageInput.addEventListener("change", function(event) {
+
+    const files = Array.from(event.target.files);
+
+    images = [];
+
+    files.forEach(file => {
+
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+
+            images.push(e.target.result);
+
+            if (images.length === files.length) {
+                showPages();
+            }
+
+        };
+
+        reader.readAsDataURL(file);
+
+    });
+
+});
+
+function showPages() {
+
+    pages.innerHTML = "";
+
+    images.forEach((image, index) => {
+
+        const page = document.createElement("div");
+
+        page.className = "page";
+
+        page.innerHTML = `
+            <img src="${image}">
+            <div class="page-number">
+                Halaman ${index + 1}
+            </div>
+        `;
+
+        pages.appendChild(page);
+
+    });
+
+}
+
+function clearImages() {
+
+    images = [];
+
+    imageInput.value = "";
+
+    pages.innerHTML = `
+        <div class="empty">
+            Belum ada gambar yang dipilih.
+        </div>
+    `;
+
+}
+
+function previewBook() {
+
+    if (images.length === 0) {
+
+        alert("Silakan upload gambar terlebih dahulu.");
+
+        return;
+
+    }
+
+    const title =
+        document.getElementById("bookTitle").value ||
+        "Digital Book";
+
+    let newWindow = window.open("", "_blank");
+
+    newWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+        <title>${title}</title>
+
+        <style>
+
+        body {
+            margin: 0;
+            background: #222;
+            text-align: center;
+        }
+
+        .book {
+            width: 100%;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        .book img {
+            width: 100%;
+            display: block;
+        }
+
+        </style>
+
+        </head>
+
+        <body>
+
+        <div class="book">
+
+        ${images.map(image =>
+            `<img src="${image}">`
+        ).join("")}
+
+        </div>
+
+        </body>
+        </html>
+    `);
+
+    newWindow.document.close();
+
+}
+
+</script>
+
+</body>
+</html>
