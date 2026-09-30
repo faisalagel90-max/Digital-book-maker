@@ -77,4 +77,14 @@ function autoTheme(){toast('Auto Theme diterapkan');save()}function autoCover(){
 function renderReader(){if(!current)return;$('rtitle').textContent=current.title;let all=[current.front,...current.pages,current.back],x=all[reader];$('readpage').innerHTML=`<img src="${x.image}"><h1>${esc(x.title)}</h1><p>${esc(x.text||x.subtitle)}</p>`}function rprev(){reader=Math.max(0,reader-1);renderReader()}function rnext(){reader=Math.min(current.pages.length+1,reader+1);renderReader()}
 function printBook(){save();let w=open('','_blank');w.document.write('<html><body>'+[current.front,...current.pages,current.back].map(x=>`<div style="page-break-after:always"><img style="max-width:100%" src="${x.image}"><h1>${esc(x.title)}</h1><p>${esc(x.text||x.subtitle)}</p></div>`).join('')+'</body></html>');w.document.close();setTimeout(()=>w.print(),300)}
 renderTemplates();list('homeBooks');
-</script></body></html>
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js")
+      .then(() => console.log("Digital Book Studio siap digunakan sebagai aplikasi"))
+      .catch(error => console.log("Service Worker gagal:", error));
+  });
+}
+</script>
+</body></html>
