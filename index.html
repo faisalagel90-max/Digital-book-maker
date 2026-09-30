@@ -1,220 +1,52 @@
 <!doctype html><html lang="id"><head>
- <link rel="manifest" href="manifest.json">
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#8b7cf6"><link rel="manifest" href="manifest.json">
 <title>Digital Book Studio</title>
 <style>
-:root{--bg:#fff8f4;--card:#fffdfb;--ink:#292531;--muted:#756f7c;--accent:#7c5cfc;--line:#eee4ef;--lav:#8b6df7;--coral:#ff7898;--yellow:#ffd86b;--blue:#74c9e8;--mint:#8ed8c1}
-*{box-sizing:border-box}body{margin:0;background:#ddd;color:var(--ink);font-family:system-ui,-apple-system,sans-serif}.app{max-width:520px;margin:auto;min-height:100vh;background:var(--bg);padding-bottom:80px}
-header{padding:18px;display:flex;justify-content:space-between;position:sticky;top:0;background:#fff8f4ee;backdrop-filter:blur(10px);z-index:5}.logo{font-weight:800}.logo small{display:block;font-size:9px;letter-spacing:2px;color:var(--muted)}main{padding:8px 16px}.view{display:none}.view.active{display:block}
-.hero{border-radius:25px;padding:24px;background:linear-gradient(135deg,#eee7ff 0%,#fff0f4 55%,#fff8d9 100%);box-shadow:0 10px 30px #0001}.hero h1{font:30px Georgia;margin:0 0 10px}.hero p{font-size:13px;color:#6d6458}.primary{background:linear-gradient(135deg,var(--lav),var(--coral));color:#fff;border:0;border-radius:13px;padding:13px 17px;font-weight:700}
-.section{margin-top:24px}.sectionhead{display:flex;justify-content:space-between;align-items:center}.section h2{font-size:16px}.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.quick button,.bookcard,.form,.tools{background:var(--card);border:1px solid var(--line);border-radius:18px}.quick button{padding:14px 5px;transition:.2s}.quick button:nth-child(1){background:#eaf8fd;border-color:#cdebf5}.quick button:nth-child(2){background:#fff0f4;border-color:#ffd5e0}.quick button:nth-child(3){background:#fff8d9;border-color:#f4e4a4}.quick span{font-size:22px}.quick b{display:block;font-size:11px;margin-top:6px}
-.books{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.bookcard{padding:8px}.cover{aspect-ratio:3/4;border-radius:12px;overflow:hidden;background:#e5dfd5}.cover img{width:100%;height:100%;object-fit:cover}.bookinfo{padding:7px 2px}.bookinfo b{font-size:13px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.bookinfo small{font-size:10px;color:var(--muted)}.bookactions{display:flex;gap:5px;margin-top:6px}.mini{flex:1;padding:8px 3px;border:1px solid var(--line);background:var(--card);border-radius:9px;font-size:10px;font-weight:700}.dark{background:var(--ink);color:white}.empty{grid-column:1/-1;text-align:center;padding:30px;color:var(--muted);background:var(--card);border-radius:18px}
-.form{padding:16px}label{display:block;font-size:12px;font-weight:700;margin:12px 0 6px}input,select,textarea{width:100%;padding:12px;border:1px solid var(--line);border-radius:11px;background:#fff}.drop{border:2px dashed #bcaaf8;border-radius:16px;padding:25px;text-align:center;margin-top:12px}.drop input{display:none}.actions{display:flex;gap:8px;margin-top:12px}.actions>*{flex:1}
-.editorbar{display:flex;gap:8px;align-items:center;margin-bottom:10px}.editorbar strong{flex:1}.back,.save{padding:10px 12px;border-radius:11px;border:0}.back{background:var(--card)}.save{background:var(--ink);color:white}.tabs{display:flex;gap:6px;overflow:auto;margin-bottom:12px}.tabs button{white-space:nowrap;padding:9px 11px;border:1px solid var(--line);border-radius:11px;background:var(--card);font-size:11px}.tabs .on{background:var(--ink);color:#fff}
-.stage{background:#e5ded2;border-radius:20px;padding:18px;display:flex;justify-content:center;min-height:420px;align-items:center}.page{width:78%;aspect-ratio:3/4;background:#fffdf8;box-shadow:0 18px 35px #0002;position:relative;overflow:hidden;padding:14px}.page img{width:100%;height:58%;object-fit:cover}.page h2{font:22px Georgia;margin:12px 4px 5px}.page p{font:11px Georgia;line-height:1.5;margin:4px}.coverpage{display:flex;flex-direction:column;justify-content:flex-end;color:white;padding:20px}.coverpage img{position:absolute;inset:0;width:100%;height:100%;z-index:0;filter:brightness(.7)}.overlay{position:relative;z-index:1}.thumbs{display:flex;gap:7px;overflow:auto;padding:10px 0}.thumb{min-width:55px;height:70px;border:2px solid transparent;border-radius:8px;overflow:hidden;background:var(--card);font-size:9px}.thumb.on{border-color:var(--lav)}.thumb img{width:100%;height:100%;object-fit:cover}.tools{padding:10px}.toolgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.tool{background:var(--bg);border:0;border-radius:10px;padding:9px 2px;font-size:9px}.tool span{display:block;font-size:18px}.reader{background:#211d18;border-radius:20px;padding:18px;min-height:70vh}.readpage{background:#fffdf8;min-height:65vh;padding:18px}.readpage img{width:100%;max-height:50vh;object-fit:cover}.readnav{display:flex;justify-content:space-between;margin-top:12px}.readnav button{padding:10px;border:0;border-radius:10px}.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,100%);height:70px;background:#fffdf8ee;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);z-index:10}.bottom button{border:0;background:none;color:var(--muted);font-size:10px}.bottom b{display:block;font-size:18px}.toast{position:fixed;bottom:85px;left:50%;transform:translateX(-50%);background:#292531;color:#fff;padding:10px 15px;border-radius:11px;font-size:11px;display:none}.link{border:0;background:none;color:#7c5cfc;font-size:11px;font-weight:700}.section h2{color:#37313f}.hero .primary{box-shadow:0 8px 18px #7c5cfc35}.hero p{color:#665f6e}.quick button{box-shadow:0 5px 14px #4b3d5c0b}.bottom{background:#fffdfbf2}.bottom button:nth-child(1){color:#7c5cfc}.bottom button:nth-child(2){color:#ff7898}.bottom button:nth-child(3){color:#6c57d9}.bottom button:nth-child(4){color:#c09b00}.bottom button:nth-child(5){color:#4aa98c}#templates button:nth-child(1){background:#eee8ff!important;border-color:#d8ccff!important}#templates button:nth-child(2){background:#fff4df!important;border-color:#f1d7a3!important}#templates button:nth-child(3){background:#fff0f4!important;border-color:#ffd1de!important}#templates button:nth-child(4){background:#fff8d9!important;border-color:#f1e3a6!important}#templates button:nth-child(5){background:#eaf8f3!important;border-color:#ccecdf!important}#templates button:nth-child(6){background:#eaf8fd!important;border-color:#ccebf5!important}#templates button:nth-child(7){background:#f4eee8!important;border-color:#e6d7c9!important}#templates button:nth-child(8){background:#f0efff!important;border-color:#dcd9ff!important}
+:root{--bg:#fff8f4;--card:#fffdfb;--ink:#292531;--muted:#756f7c;--lav:#8b6df7;--coral:#ff7898;--line:#eee4ef}
+*{box-sizing:border-box}body{margin:0;background:#ddd;color:var(--ink);font-family:system-ui,-apple-system,sans-serif}.app{max-width:520px;margin:auto;min-height:100vh;background:var(--bg);padding-bottom:82px}header{padding:16px 18px;display:flex;justify-content:space-between;position:sticky;top:0;background:#fff8f4ee;backdrop-filter:blur(10px);z-index:5}.logo{font-weight:800}.logo small{display:block;font-size:9px;letter-spacing:2px;color:var(--muted)}header button{border:0;background:var(--card);border-radius:10px;padding:8px 11px}main{padding:8px 16px}.view{display:none}.view.active{display:block}.hero{border-radius:25px;padding:24px;background:linear-gradient(135deg,#eee7ff,#fff0f4 55%,#fff8d9);box-shadow:0 10px 30px #0001}.hero h1{font:30px Georgia;margin:0 0 10px}.hero p{font-size:13px;color:#6d6458}.primary{background:linear-gradient(135deg,var(--lav),var(--coral));color:#fff;border:0;border-radius:13px;padding:13px 17px;font-weight:700}.section{margin-top:24px}.sectionhead{display:flex;justify-content:space-between;align-items:center}.section h2{font-size:16px}.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.quick button,.bookcard,.form,.tools{background:var(--card);border:1px solid var(--line);border-radius:18px}.quick button{padding:14px 5px}.quick span{font-size:22px}.quick b{display:block;font-size:11px;margin-top:6px}.books{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.bookcard{padding:8px}.cover{aspect-ratio:3/4;border-radius:12px;overflow:hidden;background:#e5dfd5;display:flex;align-items:center;justify-content:center}.cover img{width:100%;height:100%;object-fit:cover}.bookinfo{padding:7px 2px}.bookinfo b{font-size:13px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.bookinfo small{font-size:10px;color:var(--muted)}.bookactions{display:flex;gap:5px;margin-top:6px}.mini{flex:1;padding:8px 3px;border:1px solid var(--line);background:var(--card);border-radius:9px;font-size:10px;font-weight:700}.dark{background:var(--ink);color:#fff}.empty{grid-column:1/-1;text-align:center;padding:30px;color:var(--muted);background:var(--card);border-radius:18px}.form{padding:16px}label{display:block;font-size:12px;font-weight:700;margin:12px 0 6px}input,select{width:100%;padding:12px;border:1px solid var(--line);border-radius:11px;background:#fff}.drop{border:2px dashed #bcaaf8;border-radius:16px;padding:25px;text-align:center;margin-top:12px}.drop input{display:none}.actions{display:flex;gap:8px;margin-top:12px}.actions>*{flex:1}.editorbar{display:flex;gap:8px;align-items:center;margin-bottom:10px}.editorbar strong{flex:1}.back,.save{padding:10px 12px;border-radius:11px;border:0}.back{background:var(--card)}.save{background:var(--ink);color:#fff}.tabs{display:flex;gap:6px;overflow:auto;margin-bottom:12px}.tabs button{white-space:nowrap;padding:9px 11px;border:1px solid var(--line);border-radius:11px;background:var(--card);font-size:11px}.tabs .on{background:var(--ink);color:#fff}.stage{background:#e5ded2;border-radius:20px;padding:18px;display:flex;justify-content:center;min-height:420px;align-items:center}.page{width:78%;aspect-ratio:3/4;background:#fffdf8;box-shadow:0 18px 35px #0002;position:relative;overflow:hidden;padding:14px}.page img{width:100%;height:58%;object-fit:cover}.page h2{font:22px Georgia;margin:12px 4px 5px}.page p{font:11px Georgia;line-height:1.5;margin:4px}.coverpage{display:flex;flex-direction:column;justify-content:flex-end;color:#fff;padding:20px}.coverpage img{position:absolute;inset:0;width:100%;height:100%;z-index:0;object-fit:cover;filter:brightness(.7)}.coverpage.no-image{color:var(--ink)}.overlay{position:relative;z-index:1;text-shadow:0 2px 7px #0008}.coverpage.no-image .overlay{text-shadow:none}.thumbs{display:flex;gap:7px;overflow:auto;padding:10px 0}.thumb{min-width:55px;height:70px;border:2px solid transparent;border-radius:8px;overflow:hidden;background:var(--card);padding:0}.thumb.on{border-color:var(--lav)}.thumb img{width:100%;height:100%;object-fit:cover}.tools{padding:10px}.toolgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.tool{background:var(--bg);border:0;border-radius:10px;padding:9px 2px;font-size:9px}.tool span{display:block;font-size:18px}.reader{background:#211d18;border-radius:20px;padding:18px;min-height:70vh}.readpage{background:#fffdf8;min-height:65vh;padding:18px}.readpage img{width:100%;max-height:50vh;object-fit:cover}.readnav{display:flex;justify-content:space-between;margin-top:12px}.readnav button{padding:10px;border:0;border-radius:10px}.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,100%);height:70px;background:#fffdf8ee;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);z-index:10}.bottom button{border:0;background:none;color:var(--muted);font-size:10px}.bottom b{display:block;font-size:18px}.toast{position:fixed;bottom:85px;left:50%;transform:translateX(-50%);background:#292531;color:#fff;padding:10px 15px;border-radius:11px;font-size:11px;display:none;z-index:30}
 </style></head><body><div class="app">
 <header><div class="logo">DIGITAL BOOK STUDIO<small>CREATE • DESIGN • REMEMBER</small></div><button onclick="show('library')">📚</button></header>
 <main>
-<section id="home" class="view active"><div class="hero"><h1>Ubah cerita menjadi buku.</h1><p>Upload foto, pilih gaya, dan biarkan Auto Theme menyesuaikan tampilan bukumu.</p><button class="primary" onclick="show('create')">＋ Buat Buku Baru</button></div>
+<section id="home" class="view active"><div class="hero"><h1>Ubah cerita menjadi buku.</h1><p>Upload foto, pilih gaya, dan buat buku digital langsung dari HP.</p><button class="primary" onclick="show('create')">＋ Buat Buku Baru</button></div>
 <div class="section"><div class="sectionhead"><h2>Mulai cepat</h2></div><div class="quick"><button onclick="show('create')"><span>📷</span><b>Upload Foto</b></button><button onclick="show('create')"><span>✨</span><b>Auto Theme</b></button><button onclick="show('library')"><span>📚</span><b>Perpustakaan</b></button></div></div>
-<div class="section"><div class="sectionhead"><h2>📚 Template Model Buku</h2><button class="link" onclick="toast('Lebih banyak template akan ditambahkan')">Lihat semua</button></div>
-<div id="templates" style="display:flex;gap:10px;overflow:auto;padding:3px 1px 8px"></div></div>
+<div class="section"><div class="sectionhead"><h2>📚 Template Model Buku</h2></div><div id="templates" style="display:flex;gap:10px;overflow:auto;padding:3px 1px 8px"></div></div>
 <div class="section"><div class="sectionhead"><h2>Buku terakhir</h2></div><div id="homeBooks" class="books"></div></div></section>
-
 <section id="library" class="view"><div class="sectionhead"><h2>📚 Perpustakaan Saya</h2><button class="primary" style="padding:9px" onclick="show('create')">＋ Buku</button></div><p style="font-size:12px;color:var(--muted)">Simpan, lanjutkan, atau baca kembali buku yang dibuat.</p><div id="libraryBooks" class="books"></div></section>
-
-<section id="create" class="view"><div class="editorbar"><button class="back" onclick="show('home')">←</button><strong>Buat Buku Baru</strong></div><div class="form">
-<label>Judul buku</label><input id="title" placeholder="Contoh: My Special Day"><label>Nama penulis</label><input id="author" placeholder="Nama kamu">
-<label>Ukuran buku</label><select id="size"><option>A5 Portrait</option><option>A4 Portrait</option><option>Square 1:1</option><option>9:16</option></select>
-<label>Tema</label><select id="theme"><option value="auto">✨ Auto Theme</option><option>vintage</option><option>romantic</option><option>nature</option><option>dark</option><option>cute</option><option>elegant</option><option>modern</option></select>
-<div class="drop" onclick="photos.click()"><b>📷 Upload gambar</b><br><small>Setiap foto otomatis menjadi satu halaman buku</small><input id="photos" type="file" accept="image/*" multiple onchange="countPhotos()"></div><div id="count" style="font-size:11px;color:var(--muted);margin-top:8px">Belum ada foto</div>
-<div class="actions"><button class="primary" onclick="createBook()">Buat Buku & Edit →</button></div></div></section>
-
-<section id="editor" class="view"><div class="editorbar"><button class="back" onclick="show('library')">←</button><strong id="edtitle">Editor</strong><button class="save" onclick="save()">Simpan</button></div>
-<div class="tabs"><button class="on" onclick="mode='front';render()">📕 Cover Depan</button><button onclick="mode='body';render()">📖 Isi Buku</button><button onclick="mode='back';render()">📗 Cover Belakang</button></div>
-<div class="stage"><div id="page" class="page"></div></div><div id="thumbs" class="thumbs"></div><div class="tools"><div class="toolgrid"><button class="tool" onclick="editText()">✍️<span>Teks</span></button><button class="tool" onclick="nextPage()">🖼️<span>Foto</span></button><button class="tool" onclick="autoTheme()">✨<span>Auto Theme</span></button><button class="tool" onclick="autoCover()">🎨<span>Auto Cover</span></button></div><div class="actions"><button class="mini" onclick="show('reader')">📖 Baca Buku</button><button class="mini dark" onclick="printBook()">⬇️ Export / PDF</button></div></div></section>
-
+<section id="create" class="view"><div class="editorbar"><button class="back" onclick="show('home')">←</button><strong>Buat Buku Baru</strong></div><div class="form"><label>Judul buku</label><input id="title" placeholder="Contoh: My Special Day"><label>Nama penulis</label><input id="author" placeholder="Nama kamu"><label>Ukuran buku</label><select id="size"><option>A5 Portrait</option><option>A4 Portrait</option><option>Square 1:1</option><option>9:16</option></select><label>Tema</label><select id="theme"><option value="auto">✨ Auto Theme</option><option value="vintage">vintage</option><option value="romantic">romantic</option><option value="nature">nature</option><option value="dark">dark</option><option value="cute">cute</option><option value="elegant">elegant</option><option value="modern">modern</option></select><div class="drop" onclick="$('photos').click()"><b>📷 Upload gambar</b><br><small>Setiap foto menjadi satu halaman. Foto tidak wajib.</small><input id="photos" type="file" accept="image/*" multiple onchange="countPhotos()"></div><div id="count" style="font-size:11px;color:var(--muted);margin-top:8px">Belum ada foto</div><div class="actions"><button class="primary" onclick="createBook()">Buat Buku & Edit →</button></div></div></section>
+<section id="editor" class="view"><div class="editorbar"><button class="back" onclick="show('library')">←</button><strong id="edtitle">Editor</strong><button class="save" onclick="save()">Simpan</button></div><div class="tabs"><button id="tabFront" class="on" onclick="setMode('front')">📕 Cover Depan</button><button id="tabBody" onclick="setMode('body')">📖 Isi Buku</button><button id="tabBack" onclick="setMode('back')">📗 Cover Belakang</button></div><div class="stage"><div id="page" class="page"></div></div><div id="thumbs" class="thumbs"></div><div class="tools"><div class="toolgrid"><button class="tool" onclick="editText()">✍️<span>Teks</span></button><button class="tool" onclick="editPhoto()">🖼️<span>Foto</span></button><button class="tool" onclick="autoTheme()">✨<span>Auto Theme</span></button><button class="tool" onclick="autoCover()">🎨<span>Auto Cover</span></button><button class="tool" onclick="editBackground()">🖌️<span>Background</span></button><button class="tool" onclick="addPage()">➕<span>Tambah Halaman</span></button><button class="tool" onclick="deletePage()">🗑️<span>Hapus Halaman</span></button><button class="tool" onclick="duplicatePage()">📄<span>Duplikat</span></button></div><div class="actions"><button class="mini" onclick="show('reader')">📖 Baca Buku</button><button class="mini dark" onclick="printBook()">⬇️ Export / PDF</button></div></div></section>
 <section id="reader" class="view"><div class="editorbar"><button class="back" onclick="show('editor')">←</button><strong id="rtitle">Baca Buku</strong></div><div class="reader"><div id="readpage" class="readpage"></div><div class="readnav"><button onclick="rprev()">←</button><button onclick="rnext()">→</button></div></div></section>
-</main>
-<nav class="bottom"><button onclick="show('home')"><b>⌂</b>Beranda</button><button onclick="show('library')"><b>▤</b>Perpustakaan</button><button onclick="show('create')"><b>＋</b>Buat</button><button onclick="toast('Template akan ditambahkan')"><b>✦</b>Eksplor</button><button onclick="toast('Profil akan ditambahkan')"><b>◯</b>Profil</button></nav><div id="toast" class="toast"></div>
-</div>
+</main><nav class="bottom"><button onclick="show('home')"><b>⌂</b>Beranda</button><button onclick="show('library')"><b>▤</b>Perpustakaan</button><button onclick="show('create')"><b>＋</b>Buat</button><button onclick="toast('Eksplor segera hadir')"><b>✦</b>Eksplor</button><button onclick="toast('Profil segera hadir')"><b>◯</b>Profil</button></nav><div id="toast" class="toast"></div></div>
 <script>
-const templates=[
- {name:'Classic Book',icon:'📖',desc:'Elegan & klasik',theme:'elegant'},
- {name:'Scrapbook',icon:'📔',desc:'Kolase & sticker',theme:'vintage'},
- {name:'Love Story',icon:'💌',desc:'Romantis',theme:'romantic'},
- {name:'Birthday',icon:'🎂',desc:'Perayaan',theme:'cute'},
- {name:'Travel Journal',icon:'✈️',desc:'Cerita perjalanan',theme:'nature'},
- {name:'Photo Album',icon:'📸',desc:'Fokus foto',theme:'modern'},
- {name:'Vintage Journal',icon:'📜',desc:'Nuansa klasik',theme:'vintage'},
- {name:'Minimalist',icon:'✨',desc:'Bersih & modern',theme:'modern'}
-];
-function renderTemplates(){
- const e=document.getElementById('templates'); if(!e)return;
- e.innerHTML=templates.map(t=>`<button onclick="useTemplate('${t.theme}','${t.name}')" style="min-width:132px;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:17px;padding:12px;box-shadow:0 6px 18px #0000000b">
- <div style="font-size:25px">${t.icon}</div><b style="display:block;font-size:12px;margin-top:7px">${t.name}</b><small style="color:var(--muted);font-size:10px">${t.desc}</small></button>`).join('');
-}
-function useTemplate(theme,name){
- document.getElementById('theme').value=theme;
- document.getElementById('title').value=name;
- show('create'); toast('Template '+name+' dipilih');
-}
-let books=JSON.parse(localStorage.getItem('dbs_books')||'[]'),current=null,mode='front',idx=0,reader=0;
-const $=x=>document.getElementById(x);
-function show(id){document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));$(id).classList.add('active');if(id==='home')renderTemplates();list('homeBooks');if(id==='library')list('libraryBooks');if(id==='editor')render();if(id==='reader')renderReader();scrollTo(0,0)}
-function toast(x){let t=$('toast');t.textContent=x;t.style.display='block';clearTimeout(window.tt);window.tt=setTimeout(()=>t.style.display='none',1600)}
-function countPhotos(){$('count').textContent=photos.files.length?photos.files.length+' foto dipilih — otomatis menjadi halaman.':'Belum ada foto'}
-function filesToData(files){return Promise.all([...files].map(f=>new Promise(r=>{let a=new FileReader();a.onload=()=>r(a.result);a.readAsDataURL(f)})))}
-async function createBook(){
-
-  let t = $('title').value.trim() || 'Buku Tanpa Judul';
-  let a = $('author').value.trim();
-let imgs = photos.files.length
-  ? await filesToData(photos.files)
-  : [];
-  current = {
-    id: Date.now(),
-    title: t,
-    author: a,
-    size: $('size') ? $('size').value : 'A5',
-    theme: $('theme') ? $('theme').value : 'auto',
-    front: {
-      image: imgs[0] || '',
-      title: t
-    },
-    pages: imgs.length
-  ? imgs.map((img,i)=>({
-      image: img,
-      text: '',
-      title: 'Halaman ' + (i+1)
-    }))
-  : [{
-      image: '',
-      text: '',
-      title: 'Halaman 1'
-    }],
-    back: {
-      image: imgs[imgs.length-1] || ''
-    },
-    created: Date.now(),
-    updated: Date.now()
-  };
-
-  let i = books.findIndex(x=>x.id===current.id);
-
-  if(i < 0){
-    books.unshift(current);
-  }else{
-    books[i] = current;
-  }
-
-  localStorage.setItem('dbs_books', JSON.stringify(books));
-
-  show('editor');
-  render();
-  toast('Buku berhasil dibuat');
-}
-function save(){if(!current)return;current.updated=Date.now();let i=books.findIndex(x=>x.id===current.id);if(i<0)books.unshift(current);else books[i]=current;localStorage.setItem('dbs_books',JSON.stringify(books));toast('Buku tersimpan')}
-function list(id){let e=$(id);if(!books.length){e.innerHTML='<div class="empty">📚<br><br>Belum ada buku.<br>Buat buku pertamamu!</div>';return}e.innerHTML=books.map(b=>`<article class="bookcard"><div class="cover"><img src="${b.front.image}"></div><div class="bookinfo"><b>${esc(b.title)}</b><small>${b.pages.length} halaman · ${b.theme}</small><div class="bookactions"><button class="mini" onclick="openBook(${b.id})">Edit</button><button class="mini dark" onclick="readBook(${b.id})">Baca</button></div></div></article>`).join('')}
-function openBook(id){current=books.find(x=>x.id===id);show('editor')}function readBook(id){current=books.find(x=>x.id===id);reader=0;show('reader')}
+const templates=[['Classic Book','📖','elegant'],['Scrapbook','📔','vintage'],['Love Story','💌','romantic'],['Birthday','🎂','cute'],['Travel Journal','✈️','nature'],['Photo Album','📸','modern'],['Vintage Journal','📜','vintage'],['Minimalist','✨','modern']];
+const themes={auto:'#fff8f4',vintage:'#f4eadc',romantic:'#fff0f4',nature:'#eaf8f3',dark:'#25232b',cute:'#fff8d9',elegant:'#f3f0ff',modern:'#eaf8fd'};
+const $=id=>document.getElementById(id);let books=JSON.parse(localStorage.getItem('dbs_books')||'[]'),current=null,mode='front',idx=0,reader=0;
 function esc(s){return String(s||'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))}
-function render(){if(!current)return;$('edtitle').textContent=current.title;let p=$('page');if(mode==='front'){p.className='page coverpage';p.innerHTML=`<img src="${current.front.image}"><div class="overlay"><h2>${esc(current.front.title)}</h2><p>${esc(current.front.subtitle)}</p></div>`}else if(mode==='back'){p.className='page coverpage';p.innerHTML=`<img src="${current.back.image}"><div class="overlay"><h2>${esc(current.back.title)}</h2><p>${esc(current.back.text)}</p></div>`}else{let x=current.pages[idx];p.className='page';p.innerHTML=`<img src="${x.image}"><h2>${esc(x.title)}</h2><p>${esc(x.text)}</p>`}renderThumbs()}
-function renderThumbs(){$('thumbs').innerHTML=current.pages.map((x,i)=>`<button class="thumb ${mode==='body'&&idx===i?'on':''}" onclick="mode='body';idx=${i};render()"><img src="${x.image}"></button>`).join('')}
-function nextPage(){if(mode!=='body')return toast('Pilih Isi Buku dahulu');idx=(idx+1)%current.pages.length;render()}function editText(){let s=prompt('Tulis teks:',mode==='body'?current.pages[idx].text:mode==='front'?current.front.subtitle:current.back.text);if(s===null)return;if(mode==='body')current.pages[idx].text=s;else if(mode==='front')current.front.subtitle=s;else current.back.text=s;save();render()}
- function editText(){
-  if(!current) return;
-
-  if(mode === 'front'){
-    let title = prompt('Judul cover:', current.title || '');
-    if(title === null) return;
-
-    let author = prompt('Nama penulis:', current.author || '');
-    if(author === null) return;
-
-    current.title = title.trim() || 'Buku Tanpa Judul';
-    current.author = author.trim();
-    current.front.title = current.title;
-
-    save();
-    render();
-    toast('Cover berhasil diperbarui');
-    return;
-  }
-
-  if(mode === 'back'){
-    let author = prompt('Nama penulis:', current.author || '');
-    if(author === null) return;
-
-    current.author = author.trim();
-
-    save();
-    render();
-    toast('Cover belakang diperbarui');
-    return;
-  }
-
-  let text = prompt(
-    'Tulis teks halaman:',
-    current.pages[idx].text || ''
-  );
-
-  if(text === null) return;
-
-  current.pages[idx].text = text;
-  save();
-  render();
-  toast('Teks halaman diperbarui');
-}
-function autoTheme(){toast('Auto Theme diterapkan');save()}function autoCover(){current.front.image=current.pages[0].image;current.back.image=current.pages.at(-1).image;save();render();toast('Cover otomatis dibuat')}
-function renderReader(){if(!current)return;$('rtitle').textContent=current.title;let all=[current.front,...current.pages,current.back],x=all[reader];$('readpage').innerHTML=`<img src="${x.image}"><h1>${esc(x.title)}</h1><p>${esc(x.text||x.subtitle)}</p>`}function rprev(){reader=Math.max(0,reader-1);renderReader()}function rnext(){reader=Math.min(current.pages.length+1,reader+1);renderReader()}
-function printBook(){save();let w=open('','_blank');w.document.write('<html><body>'+[current.front,...current.pages,current.back].map(x=>`<div style="page-break-after:always"><img style="max-width:100%" src="${x.image}"><h1>${esc(x.title)}</h1><p>${esc(x.text||x.subtitle)}</p></div>`).join('')+'</body></html>');w.document.close();setTimeout(()=>w.print(),300)}
+function toast(x){let t=$('toast');t.textContent=x;t.style.display='block';clearTimeout(window.tt);window.tt=setTimeout(()=>t.style.display='none',1600)}
+function show(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));$(id).classList.add('active');if(id==='home')renderTemplates(),list('homeBooks');if(id==='library')list('libraryBooks');if(id==='editor')render();if(id==='reader')renderReader();scrollTo(0,0)}
+function setMode(m){mode=m;idx=Math.min(idx,current?.pages?.length-1||0);$('tabFront').classList.toggle('on',m==='front');$('tabBody').classList.toggle('on',m==='body');$('tabBack').classList.toggle('on',m==='back');render()}
+function renderTemplates(){$('templates').innerHTML=templates.map(t=>`<button onclick="useTemplate('${t[2]}','${t[0]}')" style="min-width:132px;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:17px;padding:12px"><div style="font-size:25px">${t[1]}</div><b style="display:block;font-size:12px;margin-top:7px">${t[0]}</b></button>`).join('')}
+function useTemplate(theme,name){$('theme').value=theme;$('title').value=name;show('create');toast('Template dipilih: '+name)}
+function countPhotos(){$('count').textContent=$('photos').files.length?$('photos').files.length+' foto dipilih — otomatis menjadi halaman.':'Belum ada foto'}
+function filesToData(files){return Promise.all([...files].map(f=>new Promise(r=>{let a=new FileReader();a.onload=()=>r(a.result);a.readAsDataURL(f)})))}
+async function createBook(){let imgs=$('photos').files.length?await filesToData($('photos').files):[],t=$('title').value.trim()||'Buku Tanpa Judul',a=$('author').value.trim();current={id:Date.now(),title:t,author:a,size:$('size').value,theme:$('theme').value,front:{image:imgs[0]||'',title:t,subtitle:a,background:''},pages:imgs.length?imgs.map((im,i)=>({image:im,title:'Halaman '+(i+1),text:'',background:''})):[{image:'',title:'Halaman 1',text:'',background:''}],back:{image:imgs.at(-1)||'',title:'',text:'',background:''},created:Date.now(),updated:Date.now()};books.unshift(current);localStorage.setItem('dbs_books',JSON.stringify(books));idx=0;mode='front';show('editor');toast('Buku berhasil dibuat')}
+function save(){if(!current)return;current.updated=Date.now();let i=books.findIndex(b=>b.id===current.id);if(i<0)books.unshift(current);else books[i]=current;localStorage.setItem('dbs_books',JSON.stringify(books));toast('Buku tersimpan')}
+function list(id){let e=$(id);if(!books.length){e.innerHTML='<div class="empty">📚<br><br>Belum ada buku.<br>Buat buku pertamamu!</div>';return}e.innerHTML=books.map(b=>`<article class="bookcard"><div class="cover" style="background:${esc(b.front.background||'#e5dfd5')}">${b.front.image?`<img src="${b.front.image}">`:'📖'}</div><div class="bookinfo"><b>${esc(b.title)}</b><small>${b.pages.length} halaman · ${esc(b.theme)}</small><div class="bookactions"><button class="mini" onclick="openBook(${b.id})">Edit</button><button class="mini dark" onclick="readBook(${b.id})">Baca</button></div></div></article>`).join('')}
+function openBook(id){current=books.find(b=>b.id===id);mode='front';idx=0;show('editor')}
+function readBook(id){current=books.find(b=>b.id===id);reader=0;show('reader')}
+function render(){if(!current)return;$('edtitle').textContent=current.title;let p=$('page');if(mode==='front'){p.className='page coverpage '+(current.front.image?'':'no-image');p.style.background=current.front.background||themes[current.theme]||themes.auto;p.innerHTML=`${current.front.image?`<img src="${current.front.image}">`:''}<div class="overlay"><h2>${esc(current.title)}</h2><p>${esc(current.author)}</p></div>`}else if(mode==='back'){p.className='page coverpage '+(current.back.image?'':'no-image');p.style.background=current.back.background||themes[current.theme]||themes.auto;p.innerHTML=`${current.back.image?`<img src="${current.back.image}">`:''}<div class="overlay"><h2>${esc(current.back.title)}</h2><p>${esc(current.back.text||current.author)}</p></div>`}else{let x=current.pages[idx];p.className='page';p.style.background=x.background||themes[current.theme]||'#fffdf8';p.innerHTML=`${x.image?`<img src="${x.image}">`:''}<h2>${esc(x.title)}</h2><p>${esc(x.text)}</p>`}renderThumbs()}
+function renderThumbs(){$('thumbs').innerHTML=current.pages.map((x,i)=>`<button class="thumb ${mode==='body'&&idx===i?'on':''}" onclick="mode='body';idx=${i};render()">${x.image?`<img src="${x.image}">`:'📄'}</button>`).join('')}
+function editText(){if(mode==='front'){let t=prompt('Judul cover:',current.title);if(t===null)return;let a=prompt('Nama penulis:',current.author);if(a===null)return;current.title=t.trim()||'Buku Tanpa Judul';current.author=a.trim();current.front.title=current.title;current.front.subtitle=current.author}else if(mode==='back'){let t=prompt('Judul cover belakang:',current.back.title);if(t===null)return;let x=prompt('Teks cover belakang:',current.back.text);if(x===null)return;current.back.title=t;current.back.text=x}else{let x=current.pages[idx],t=prompt('Judul halaman:',x.title);if(t===null)return;let s=prompt('Teks halaman:',x.text);if(s===null)return;x.title=t;x.text=s}save();render()}
+function editPhoto(){let input=document.createElement('input');input.type='file';input.accept='image/*';input.onchange=async()=>{if(!input.files.length)return;let im=(await filesToData(input.files))[0];if(mode==='front')current.front.image=im;else if(mode==='back')current.back.image=im;else current.pages[idx].image=im;save();render()};input.click()}
+function editBackground(){let target=mode==='front'?current.front:mode==='back'?current.back:current.pages[idx],v=prompt('Warna HEX, contoh #f5e6d3:',target.background||themes[current.theme]||'#fff8f4');if(v===null)return;if(!/^#[0-9a-fA-F]{6}$/.test(v.trim()))return toast('Gunakan format #RRGGBB');target.background=v.trim();save();render()}
+function autoTheme(){let t=current.theme;if(t==='auto')t='romantic';current.theme=t;current.front.background=themes[t];current.back.background=themes[t];current.pages.forEach(p=>{if(!p.background)p.background=themes[t]});save();render();toast('Auto Theme diterapkan')}
+function autoCover(){current.front.image=current.pages[0].image||'';current.back.image=current.pages.at(-1).image||'';current.front.title=current.title;current.front.subtitle=current.author;save();render();toast('Auto Cover dibuat')}
+function addPage(){current.pages.splice(idx+1,0,{image:'',title:'Halaman '+(current.pages.length+1),text:'',background:''});idx++;save();render()}
+function deletePage(){if(current.pages.length<=1)return toast('Minimal 1 halaman');if(!confirm('Hapus halaman ini?'))return;current.pages.splice(idx,1);idx=Math.max(0,idx-1);save();render()}
+function duplicatePage(){current.pages.splice(idx+1,0,JSON.parse(JSON.stringify(current.pages[idx])));idx++;save();render()}
+function renderReader(){let all=[{...current.front,title:current.title,text:current.author},...current.pages,{...current.back}],x=all[reader];$('rtitle').textContent=current.title;$('readpage').innerHTML=`${x.image?`<img src="${x.image}">`:''}<h1>${esc(x.title)}</h1><p>${esc(x.text||x.subtitle)}</p>`}
+function rprev(){reader=Math.max(0,reader-1);renderReader()}function rnext(){reader=Math.min(current.pages.length+1,reader+1);renderReader()}
+function printBook(){save();let all=[{...current.front,title:current.title,text:current.author},...current.pages,{...current.back}],w=open('','_blank');if(!w)return toast('Izinkan pop-up untuk Export/PDF');w.document.write('<html><head><title>'+esc(current.title)+'</title><style>body{margin:0;font-family:Georgia}.p{min-height:100vh;padding:30px;box-sizing:border-box;page-break-after:always}.p img{max-width:100%;max-height:65vh;object-fit:cover}</style></head><body>'+all.map(x=>`<div class="p" style="background:${esc(x.background||themes[current.theme]||'#fffdf8')}">${x.image?`<img src="${x.image}">`:''}<h1>${esc(x.title)}</h1><p>${esc(x.text||x.subtitle)}</p></div>`).join('')+'</body></html>');w.document.close();setTimeout(()=>w.print(),500)}
 renderTemplates();list('homeBooks');
-</script>
-<script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js")
-      .then(() => console.log("Digital Book Studio siap digunakan sebagai aplikasi"))
-      .catch(error => console.log("Service Worker gagal:", error));
-  });
-}
-</script>
- <script>
-document.addEventListener("click", () => {
-  if (document.documentElement.requestFullscreen) {
-    document.documentElement.requestFullscreen().catch(() => {});
-  }
-}, { once: true });
-</script>
-<!-- EDITOR COVER DEPAN -->
-<script>
-function openCoverEditor() {
-  if (!current) {
-    toast("Buka atau buat buku terlebih dahulu");
-    return;
-  }
-
-  const title = prompt(
-    "Judul buku:",
-    current.title || "Judul Buku"
-  );
-
-  if (title === null) return;
-
-  const author = prompt(
-    "Nama penulis:",
-    current.author || ""
-  );
-
-  if (author === null) return;
-
-  current.title = title.trim() || "Judul Buku";
-  current.author = author.trim();
-
-  save();
-
-  toast("Cover berhasil diperbarui");
-  render();
-}
-</script>
-</body></html>
+if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+</script></body></html>
