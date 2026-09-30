@@ -121,6 +121,50 @@ function esc(s){return String(s||'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt
 function render(){if(!current)return;$('edtitle').textContent=current.title;let p=$('page');if(mode==='front'){p.className='page coverpage';p.innerHTML=`<img src="${current.front.image}"><div class="overlay"><h2>${esc(current.front.title)}</h2><p>${esc(current.front.subtitle)}</p></div>`}else if(mode==='back'){p.className='page coverpage';p.innerHTML=`<img src="${current.back.image}"><div class="overlay"><h2>${esc(current.back.title)}</h2><p>${esc(current.back.text)}</p></div>`}else{let x=current.pages[idx];p.className='page';p.innerHTML=`<img src="${x.image}"><h2>${esc(x.title)}</h2><p>${esc(x.text)}</p>`}renderThumbs()}
 function renderThumbs(){$('thumbs').innerHTML=current.pages.map((x,i)=>`<button class="thumb ${mode==='body'&&idx===i?'on':''}" onclick="mode='body';idx=${i};render()"><img src="${x.image}"></button>`).join('')}
 function nextPage(){if(mode!=='body')return toast('Pilih Isi Buku dahulu');idx=(idx+1)%current.pages.length;render()}function editText(){let s=prompt('Tulis teks:',mode==='body'?current.pages[idx].text:mode==='front'?current.front.subtitle:current.back.text);if(s===null)return;if(mode==='body')current.pages[idx].text=s;else if(mode==='front')current.front.subtitle=s;else current.back.text=s;save();render()}
+ function editText(){
+  if(!current) return;
+
+  if(mode === 'front'){
+    let title = prompt('Judul cover:', current.title || '');
+    if(title === null) return;
+
+    let author = prompt('Nama penulis:', current.author || '');
+    if(author === null) return;
+
+    current.title = title.trim() || 'Buku Tanpa Judul';
+    current.author = author.trim();
+    current.front.title = current.title;
+
+    save();
+    render();
+    toast('Cover berhasil diperbarui');
+    return;
+  }
+
+  if(mode === 'back'){
+    let author = prompt('Nama penulis:', current.author || '');
+    if(author === null) return;
+
+    current.author = author.trim();
+
+    save();
+    render();
+    toast('Cover belakang diperbarui');
+    return;
+  }
+
+  let text = prompt(
+    'Tulis teks halaman:',
+    current.pages[idx].text || ''
+  );
+
+  if(text === null) return;
+
+  current.pages[idx].text = text;
+  save();
+  render();
+  toast('Teks halaman diperbarui');
+}
 function autoTheme(){toast('Auto Theme diterapkan');save()}function autoCover(){current.front.image=current.pages[0].image;current.back.image=current.pages.at(-1).image;save();render();toast('Cover otomatis dibuat')}
 function renderReader(){if(!current)return;$('rtitle').textContent=current.title;let all=[current.front,...current.pages,current.back],x=all[reader];$('readpage').innerHTML=`<img src="${x.image}"><h1>${esc(x.title)}</h1><p>${esc(x.text||x.subtitle)}</p>`}function rprev(){reader=Math.max(0,reader-1);renderReader()}function rnext(){reader=Math.min(current.pages.length+1,reader+1);renderReader()}
 function printBook(){save();let w=open('','_blank');w.document.write('<html><body>'+[current.front,...current.pages,current.back].map(x=>`<div style="page-break-after:always"><img style="max-width:100%" src="${x.image}"><h1>${esc(x.title)}</h1><p>${esc(x.text||x.subtitle)}</p></div>`).join('')+'</body></html>');w.document.close();setTimeout(()=>w.print(),300)}
