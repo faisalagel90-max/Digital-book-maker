@@ -1,0 +1,10 @@
+{
+  "name": "Digital Book Studio",
+  "short_name": "Digital Book",
+  "description": "Buat dan simpan buku digital langsung dari HP.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#FFF9F2",
+  "theme_color": "#8B7CF6",
+  "orientation": "portrait"
+}
