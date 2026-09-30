@@ -66,15 +66,12 @@ function toast(x){let t=$('toast');t.textContent=x;t.style.display='block';clear
 function countPhotos(){$('count').textContent=photos.files.length?photos.files.length+' foto dipilih — otomatis menjadi halaman.':'Belum ada foto'}
 function filesToData(files){return Promise.all([...files].map(f=>new Promise(r=>{let a=new FileReader();a.onload=()=>r(a.result);a.readAsDataURL(f)})))}
 async function createBook(){
-  if(!photos.files.length){
-    toast('Pilih foto terlebih dahulu');
-    return;
-  }
 
-  let imgs = await filesToData(photos.files);
   let t = $('title').value.trim() || 'Buku Tanpa Judul';
   let a = $('author').value.trim();
-
+let imgs = photos.files.length
+  ? await filesToData(photos.files)
+  : [];
   current = {
     id: Date.now(),
     title: t,
@@ -85,11 +82,17 @@ async function createBook(){
       image: imgs[0] || '',
       title: t
     },
-    pages: imgs.map((img,i)=>({
+    pages: imgs.length
+  ? imgs.map((img,i)=>({
       image: img,
       text: '',
       title: 'Halaman ' + (i+1)
-    })),
+    }))
+  : [{
+      image: '',
+      text: '',
+      title: 'Halaman 1'
+    }],
     back: {
       image: imgs[imgs.length-1] || ''
     },
