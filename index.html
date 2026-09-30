@@ -94,4 +94,35 @@ document.addEventListener("click", () => {
   }
 }, { once: true });
 </script>
+<!-- EDITOR COVER DEPAN -->
+<script>
+function openCoverEditor() {
+  if (!current) {
+    toast("Buka atau buat buku terlebih dahulu");
+    return;
+  }
+
+  const title = prompt(
+    "Judul buku:",
+    current.title || "Judul Buku"
+  );
+
+  if (title === null) return;
+
+  const author = prompt(
+    "Nama penulis:",
+    current.author || ""
+  );
+
+  if (author === null) return;
+
+  current.title = title.trim() || "Judul Buku";
+  current.author = author.trim();
+
+  save();
+
+  toast("Cover berhasil diperbarui");
+  render();
+}
+</script>
 </body></html>
