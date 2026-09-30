@@ -80,9 +80,16 @@ function deletePage(){if(current.pages.length<=1)return toast('Minimal 1 halaman
 function duplicatePage(){current.pages.splice(idx+1,0,JSON.parse(JSON.stringify(current.pages[idx])));idx++;save();render()}
 function renderReader(){let all=[{...current.front,title:current.title,text:current.author},...current.pages,{...current.back}],x=all[reader];$('rtitle').textContent=current.title;$('readpage').innerHTML=`${x.image?`<img src="${x.image}">`:''}<h1>${esc(x.title)}</h1><p>${esc(x.text||x.subtitle)}</p>`}
 function rprev(){reader=Math.max(0,reader-1);renderReader()}function rnext(){reader=Math.min(current.pages.length+1,reader+1);renderReader()}
-function printBook(){save();let all=[{...current.front,title:current.title,text:current.author},...current.pages,{...current.back}],w=open('','_blank');if(!w)return toast('Izinkan pop-up untuk Export/PDF');w.document.write('<html><head><title>'+esc(current.title)+'</title><style>body{margin:0;font-family:Georgia}.p{min-height:100vh;padding:30px;box-sizing:border-box;page-break-after:always}.p img{max-width:100%;max-height:65vh;object-fit:cover}
-.element-panel{margin-top:10px;padding:12px;border:1px solid var(--line);border-radius:15px;background:#fff}.element-panel[hidden]{display:none}.panel-title{font-size:11px;font-weight:800;margin-bottom:8px}.guide{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.guide button,.layer button,.rotate-row button{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:9px;font-weight:700;font-size:11px}.guide .up{grid-column:2}.guide .left{grid-column:1;grid-row:2}.guide .down{grid-column:2;grid-row:2}.guide .right{grid-column:3;grid-row:2}.control-row{display:flex;align-items:center;gap:8px;margin-top:10px}.control-row label{margin:0;min-width:76px;font-size:10px}.control-row input[type=range]{flex:1;padding:0}.control-row output{width:40px;text-align:right;font-size:10px;font-weight:700}.color-input{width:48px!important;height:36px;padding:3px!important}.layer,.rotate-row{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}.rotate-row{grid-template-columns:1fr 1fr 1fr}.panel-section{margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
-</style></head><body>'+all.map(x=>`<div class="p" style="background:${esc(x.background||themes[current.theme]||'#fffdf8')}">${x.image?`<img src="${x.image}">`:''}<h1>${esc(x.title)}</h1><p>${esc(x.text||x.subtitle)}</p></div>`).join('')+'</body></html>');w.document.close();setTimeout(()=>w.print(),500)}
+function printBook(){
+  save();
+  let all=[{...current.front,title:current.title,text:current.author},...current.pages,{...current.back}];
+  let w=open('','_blank');
+  if(!w)return toast('Izinkan pop-up untuk Export/PDF');
+  let css=`body{margin:0;font-family:Georgia}.p{min-height:100vh;padding:30px;box-sizing:border-box;page-break-after:always}.p img{max-width:100%;max-height:65vh;object-fit:cover}`;
+  w.document.write('<html><head><title>'+esc(current.title)+'</title><style>'+css+'</style></head><body>'+all.map(x=>`<div class="p" style="background:${esc(x.background||themes[current.theme]||'#fffdf8')}">${x.image?`<img src="${x.image}">`:''}<h1>${esc(x.title)}</h1><p>${esc(x.text||x.subtitle)}</p></div>`).join('')+'</body></html>');
+  w.document.close();
+  setTimeout(()=>w.print(),500);
+}
 renderTemplates();list('homeBooks');
 if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 </script></body></html>
