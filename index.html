@@ -65,7 +65,52 @@ function show(id){document.querySelectorAll('.view').forEach(x=>x.classList.remo
 function toast(x){let t=$('toast');t.textContent=x;t.style.display='block';clearTimeout(window.tt);window.tt=setTimeout(()=>t.style.display='none',1600)}
 function countPhotos(){$('count').textContent=photos.files.length?photos.files.length+' foto dipilih — otomatis menjadi halaman.':'Belum ada foto'}
 function filesToData(files){return Promise.all([...files].map(f=>new Promise(r=>{let a=new FileReader();a.onload=()=>r(a.result);a.readAsDataURL(f)})))}
-async function createBook(){if(!photos.files.length)return toast('Pilih foto terlebih dahulu');let imgs=await filesToData(photos.files),t=$('title').value||'Buku Tanpa Judul';current={id:Date.now(),title:t,author:$('author').value,theme:$('theme').value,size:$('size').value,front:{image:imgs[0],title:t,subtitle:$('author').value||'A story to remember'},pages:imgs.map((x,i)=>({image:x,title:'Page '+(i+1),text:'Tambahkan cerita di halaman ini.'})),back:{image:imgs.at(-1),title:'Terima kasih',text:'Sebuah cerita yang layak dikenang.'},updated:Date.now()};books.unshift(current);save();show('editor')}
+async function createBook(){
+  if(!photos.files.length){
+    toast('Pilih foto terlebih dahulu');
+    return;
+  }
+
+  let imgs = await filesToData(photos.files);
+  let t = $('title').value.trim() || 'Buku Tanpa Judul';
+  let a = $('author').value.trim();
+
+  current = {
+    id: Date.now(),
+    title: t,
+    author: a,
+    size: $('size') ? $('size').value : 'A5',
+    theme: $('theme') ? $('theme').value : 'auto',
+    front: {
+      image: imgs[0] || '',
+      title: t
+    },
+    pages: imgs.map((img,i)=>({
+      image: img,
+      text: '',
+      title: 'Halaman ' + (i+1)
+    })),
+    back: {
+      image: imgs[imgs.length-1] || ''
+    },
+    created: Date.now(),
+    updated: Date.now()
+  };
+
+  let i = books.findIndex(x=>x.id===current.id);
+
+  if(i < 0){
+    books.unshift(current);
+  }else{
+    books[i] = current;
+  }
+
+  localStorage.setItem('dbs_books', JSON.stringify(books));
+
+  show('editor');
+  render();
+  toast('Buku berhasil dibuat');
+}
 function save(){if(!current)return;current.updated=Date.now();let i=books.findIndex(x=>x.id===current.id);if(i<0)books.unshift(current);else books[i]=current;localStorage.setItem('dbs_books',JSON.stringify(books));toast('Buku tersimpan')}
 function list(id){let e=$(id);if(!books.length){e.innerHTML='<div class="empty">📚<br><br>Belum ada buku.<br>Buat buku pertamamu!</div>';return}e.innerHTML=books.map(b=>`<article class="bookcard"><div class="cover"><img src="${b.front.image}"></div><div class="bookinfo"><b>${esc(b.title)}</b><small>${b.pages.length} halaman · ${b.theme}</small><div class="bookactions"><button class="mini" onclick="openBook(${b.id})">Edit</button><button class="mini dark" onclick="readBook(${b.id})">Baca</button></div></div></article>`).join('')}
 function openBook(id){current=books.find(x=>x.id===id);show('editor')}function readBook(id){current=books.find(x=>x.id===id);reader=0;show('reader')}
